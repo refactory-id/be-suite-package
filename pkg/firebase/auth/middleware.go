@@ -96,7 +96,7 @@ const (
 	userContextKey ctxKey = iota
 )
 
-func UserFromCtx(ctx context.Context) (User, error) {
+func GetUserInfo(ctx context.Context) (User, error) {
 	user, ok := ctx.Value(userContextKey).(User)
 	if ok {
 		return user, nil
