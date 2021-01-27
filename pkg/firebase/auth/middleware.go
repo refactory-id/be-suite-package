@@ -28,6 +28,11 @@ func AuthFirebaseMiddleware(next http.Handler) http.Handler {
 		authClient := initAuthClient()
 		token, err := authClient.VerifyIDToken(ctx, bearerToken)
 		if err != nil {
+			if strings.Contains(err.Error(), "expired") {
+				http.Error(w, err.Error(), http.StatusUnauthorized)
+				return
+			}
+
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
